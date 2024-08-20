@@ -1,0 +1,74 @@
+<app-progress-bar *ngIf="loading"></app-progress-bar>
+<div *ngIf="!loading" class="container">
+  <div class="title">
+    <h4>Listado de Productos</h4>
+    <form class="d-flex">
+      <input
+        class="form-control me-sm-2"
+        type="search"
+        name="busquedaproductos"
+        placeholder="Buscar producto ..."
+        [(ngModel)]="buscaralmacen"
+      />
+    </form>
+  </div>
+
+  <table *ngIf="listAlmacenes.length > 0" class="table table-hover">
+    <thead>
+      <tr>
+        <th scope="col">Producto</th>
+        <th scope="col">Cantidad Disponible</th>
+        <th scope="col">Fecha De Vencimiento</th>
+        <th scope="col">Unidad de Medida</th>
+        <th scope="col">Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        *ngFor="let item of listAlmacenes | busquedaproductos: buscaralmacen | paginate: { itemsPerPage: 5, currentPage: pageActual }"
+        class="table-active"
+      >
+        <td>{{ item.nombre ? item.nombre : 'NO ASIGNADO' }}</td>
+        <td>{{ item.cantidadDisponible ? item.cantidadDisponible : 'NO ASIGNADO' }}</td>
+        <td>{{ item.fecha_de_vencimiento ? item.fecha_de_vencimiento : 'NO ASIGNADO' }}</td>
+        <td>{{ item.unidadMedida ? item.unidadMedida : 'NO ASIGNADO' }}</td>
+        <td>
+          <button
+            routerLink="/almacenes/edit/{{ item.idIngrediente }}"
+            type="button"
+            class="btn btn-info btn-sm"
+          >
+            Editar
+          </button>
+          <button
+            (click)="deleteAlmacenes(item.idIngrediente!)"
+            type="button"
+            style="color: black;"
+            class="btn btn-secondary btn-sm ms-2"
+          >
+            Eliminar
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="title">
+    <button type="button" class="btn btn-primary" routerLink="/almacenes/add">
+      Agregar Nuevo Registro
+    </button>
+    <button type="button" class="btn btn-danger" (click)="onImprimir()">
+      Imprimir
+    </button>
+  </div>
+
+  <div class="pagination mt-8 py-5 flex justify-center items-center">
+    <pagination-controls
+      (pageChange)="pageActual = $event"
+      previousLabel="Anterior"
+      nextLabel="Siguiente"
+    ></pagination-controls>
+  </div>
+
+  <h5 *ngIf="listAlmacenes.length == 0">No hay contenido para mostrar</h5>
+</div>

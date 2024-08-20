@@ -1,0 +1,46 @@
+<app-progress-bar *ngIf="loading"></app-progress-bar>
+<div *ngIf="!loading" class="container">
+    <div class="title">
+        <h4>Listado de Pedidos</h4>
+        <form class="d-flex">
+            <input class="form-control me-sm-2" type="search" name="busquedapedidos" placeholder="Buscar pedido ..." [(ngModel)]="buscarPedido">
+        </form>
+    </div>
+
+    <table *ngIf="filteredPedidos.length > 0" class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">Receta</th>
+                <th scope="col">Descripción</th>
+                <th scope="col">Fecha de entrega</th>
+                <th scope="col">Estado</th>
+                <th scope="col">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let pedido of filteredPedidos | paginate: {itemsPerPage: 5, currentPage: pageActual}" class="table-active">
+                <td>{{ getRecetaByID(pedido.id_receta)?.receta }}</td>
+                <td>{{ pedido.descripcion }}</td>
+                <td>{{ pedido.fecha_pedido | date }}</td>
+                <td>{{ pedido.estado }}</td>
+                <td>
+                    <button routerLink="/elaborarPedido/edit/{{ pedido.id_pedido }}" type="button" class="btn btn-info btn-sm">Editar pedido</button>
+                    <button (click)="showIngredientes(pedido.id_pedido!)" type="button" style="color: black;" class="btn btn-primary btn-sm ms-2">Ver Ingredientes</button>
+                    <button (click)="deletePedido(pedido.id_pedido!)" type="button" style="color: black;" class="btn btn-secondary btn-sm ms-2">Eliminar</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="title">
+        <button type="button" class="btn btn-primary" routerLink="/elaborarPedido/add">Agregar Nuevo Pedido</button>
+
+    </div>
+
+    <div class="pagination mt-8 py-5 flex justify-center items-center">
+        <pagination-controls (pageChange)="pageActual = $event" previousLabel="Anterior" nextLabel="Siguiente"></pagination-controls>
+    </div>
+
+    <h5 *ngIf="filteredPedidos.length == 0">No hay contenido para mostrar</h5>
+</div>
+

@@ -1,0 +1,19 @@
+<div class="wrapper">
+    <div class="login">
+        <div *ngIf="!loading" class="body">
+            <img class="logo" src="../../../../assets/img/loginicon.png" alt="img login">
+            <div class="form-floating mb-3 mt-3">
+                <input type="text" [(ngModel)]="username" autocomplete="false" class="form-control" placeholder="Ingrese usuario">
+                <label>USUARIO</label>
+            </div>
+            <div class="form-floating mb-3">
+                <input type="password" [(ngModel)]="password" autocomplete="false" class="form-control" placeholder="Ingrese password">
+                <label>CONTRASEÑA</label>
+            </div>
+            <div class="d-grid gap-2">
+                <button type="button" class="btn btn-primary btn-lg" (click)="login()">ACEPTAR</button>
+            </div>
+        </div>
+    </div>
+</div>
+

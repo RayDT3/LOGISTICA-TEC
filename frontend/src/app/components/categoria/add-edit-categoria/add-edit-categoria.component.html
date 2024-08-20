@@ -1,0 +1,24 @@
+<app-progress-bar *ngIf="loading"></app-progress-bar>
+<div *ngIf="!loading" class="row mt-1">
+    <div class="col-lg-4 offset-lg-4">
+        <div class="card text-white bg-secondary mb-3" style="max-width: 25rem;">
+            <div class="card-header text-center">{{ operacion }} Categorías</div>
+            <div class="card-body">
+                <form [formGroup]="form" (ngSubmit)="addCategoria()">
+                    <input formControlName="categoria" type="text" class="form-control mt-2" placeholder="Ingrese nueva categoria">
+                    <span *ngIf="form.get('categoria')?.hasError('required') && form.get('categoria')?.touched">
+                        El campo categoría es <strong>requerido</strong>
+                    </span>
+                    <div class="row mt-2 text-center">
+                        <div class="col-lg-6">
+                            <button routerLink="/categoria" type="button" class="btn btn-secondary">Volver</button>
+                        </div>
+                        <div class="col-lg-6">
+                            <button [disabled]="form.invalid" type="submit" class="btn btn-primary">Aceptar</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

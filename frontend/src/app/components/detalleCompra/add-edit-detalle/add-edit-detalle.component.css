@@ -1,0 +1,19 @@
+.botones{
+  display: flex;
+  float: right;
+}
+button{
+  border: 1px rgba(255, 255, 255, 0.534) solid;
+  border-radius: 5px;
+}
+span{
+  color: black;
+}
+.card-header{
+  color: black;
+}
+.row{
+  font-family: "Sarala", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}

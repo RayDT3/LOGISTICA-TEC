@@ -1,0 +1,45 @@
+<app-progress-bar *ngIf="loading"></app-progress-bar>
+<div *ngIf="!loading" class="container">
+    <div class="title">
+        <h4>Listado de Categroias</h4>
+
+        <form class="d-flex">
+          <input class="form-control me-sm-2" type="search" name="busquedacategoria" placeholder="Buscar categoria ..." [(ngModel)]="buscarCategoria">
+        </form>
+
+    </div>
+
+    <table *ngIf="listCategorias.length > 0" class="table table-hover">
+        <thead>
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Categorias</th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of listCategorias" class="table-active">
+            <td>{{ item.id }}</td>
+            <td>{{ item.categoria }}</td>
+
+            <td>
+                <button routerLink="/categoria/edit/{{ item.id }}" type="button" class="btn btn-info btn-sm">Editar</button>
+                <button (click)="deleteCategoria(item.id!)" type="button" class="btn btn-secondary btn-sm ms-2">Eliminar</button>
+            </td>
+          </tr>
+        </tbody>
+
+      </table>
+
+      <div class="title">
+        <button type="button" class="btn btn-primary" routerLink="/categoria/add" >Agregar Nueva Categoria</button>
+        <button type="button" class="btn btn-danger" (click)="onImprimir()" >Imprimir</button>
+      </div>
+
+      <div class="pagination mt-8 py-5 flex justify-center items-center">
+        <pagination-controls (pageChange)="pageActual = $event" previousLabel="Anterior" nextLabel="Siguiente"></pagination-controls>
+      </div>
+
+      <h5 *ngIf="listCategorias.length == 0" >No hay contenido para mostrar</h5>
+
+</div>

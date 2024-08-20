@@ -1,0 +1,54 @@
+<app-progress-bar *ngIf="loading"></app-progress-bar>
+<div *ngIf="!loading" class="container">
+  <div class="title">
+    <h4>Listado de recetas</h4>
+
+    <form class="d-flex">
+      <input class="form-control me-sm-2" type="search" name="busquedareceta" placeholder="Buscar Receta ..." [(ngModel)]="buscarCategoria">
+    </form>
+  </div>
+
+  <table *ngIf="listRecetas.length > 0" class="table table-hover">
+    <thead>
+      <tr>
+        <th scope="col">Nombre de plato típico</th>
+        <th scope="col">Descripción</th>
+        <th scope="col">Ingredientes</th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of listRecetas | busquedareceta:buscarCategoria | paginate: {itemsPerPage: 2, currentPage: pageActual}" class="table-active">
+        <td>{{ item.receta }}</td>
+        <td>{{ item.descripcion }}</td>
+        <td>
+          <ul>
+            <li *ngFor="let detalle of getDetalleByReceta(item.idReceta!)">
+              {{ detalle.nombreIngrediente }}: {{ detalle.cantidadNecesaria }} {{ detalle.unidadMedida }}
+            </li>
+          </ul>
+        </td>
+        <td>
+          <button type="button" class="btn btn-danger" (click)="onImprimir()" >Imprimir</button>
+        </td>
+
+        <td>
+          <!--
+          <button routerLink="/detalleReceta/{{item.idReceta}}" type="button" class="btn btn-success btn-sm">Ver detalles</button>
+          -->
+          <button (click)="deleteReceta(item.idReceta!)" type="button" class="btn btn-success btn-sm ms-2">Eliminar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="title">
+    <button type="button" class="btn btn-primary" routerLink="/receta/add">Agregar Nueva receta</button>
+  </div>
+
+  <div class="pagination mt-8 py-5 flex justify-center items-center">
+    <pagination-controls (pageChange)="pageActual = $event" previousLabel="Anterior" nextLabel="Siguiente"></pagination-controls>
+  </div>
+
+  <h5 *ngIf="listRecetas.length == 0">No hay contenido para mostrar</h5>
+</div>

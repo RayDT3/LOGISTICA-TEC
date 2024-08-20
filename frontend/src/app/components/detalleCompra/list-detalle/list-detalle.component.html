@@ -1,0 +1,45 @@
+<app-progress-bar *ngIf="loading"></app-progress-bar>
+<div *ngIf="!loading" class="container">
+    <div class="title">
+        <h4>Detalle de compras</h4>
+
+        <form class="d-flex">
+          <input class="form-control me-sm-2" type="search" name="busquedadetcompras" placeholder="Buscar proveedor ..." [(ngModel)]="buscarDetCompra">
+        </form>
+
+    </div>
+
+    <table *ngIf="listDetalleCompras.length > 0" class="table table-hover">
+        <thead>
+          <tr>
+            <th scope="col">Proveedor</th>
+            <th scope="col">Encargado de compras</th>
+            <th scope="col">N° de factura</th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of listDetalleCompras | busquedadetcompras:buscarDetCompra | paginate: {itemsPerPage: 5, currentPage: pageActual} " class="table-active">
+            <td>{{ item.proveedor }}</td>
+            <td>{{ item.encargado_compra }}</td>
+            <td>{{ item.numero_factura }}</td>
+            <td>
+                <button routerLink="/detalleCompras/edit/{{ item.id }}" type="button" class="btn btn-info btn-sm">Editar</button>
+                <button (click)="deleteDetalleCompra(item.id!)" type="button" class="btn btn-secondary btn-sm ms-2">Eliminar</button>
+            </td>
+          </tr>
+        </tbody>
+
+      </table>
+
+      <div class="title">
+        <button type="button" class="btn btn-primary" routerLink="/detalleCompras/add" >Agregar Nuevp Registro</button>
+      </div>
+
+      <div class="pagination mt-8 py-5 flex justify-center items-center">
+        <pagination-controls (pageChange)="pageActual = $event" previousLabel="Anterior" nextLabel="Siguiente"></pagination-controls>
+      </div>
+
+      <h5 *ngIf="listDetalleCompras.length == 0" >No hay contenido para mostrar</h5>
+
+</div>

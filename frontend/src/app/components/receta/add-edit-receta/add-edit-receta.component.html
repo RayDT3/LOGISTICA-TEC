@@ -1,0 +1,101 @@
+<div class="container">
+  <h2>{{ isEditMode ? "Editar Receta" : "Agregar Nueva Receta" }}</h2>
+
+  <form [formGroup]="recetaForm" (ngSubmit)="onSubmit()">
+    <div class="mb-3">
+      <label for="receta" class="form-label">Nombre de Plato Típico</label>
+      <input
+        type="text"
+        class="form-control"
+        id="receta"
+        formControlName="receta"
+        required
+      />
+    </div>
+
+    <div class="mb-3">
+      <label for="descripcion" class="form-label">Descripción</label>
+      <textarea
+        class="form-control"
+        id="descripcion"
+        formControlName="descripcion"
+        rows="3"
+        required
+      ></textarea>
+    </div>
+
+    <div
+      formArrayName="detallesReceta"
+      *ngFor="let detalle of detallesReceta.controls; let i = index"
+      class="mb-3"
+    >
+      <div [formGroupName]="i">
+        <label for="ingrediente-{{ i }}" class="form-label"
+          >Ingrediente {{ i + 1 }}</label
+        >
+        <select
+          class="form-control"
+          id="ingrediente-{{ i }}"
+          formControlName="idIngrediente"
+          required
+        >
+          <option
+            *ngFor="let ingrediente of ingredientes"
+            [value]="ingrediente.idIngrediente"
+          >
+            {{ ingrediente.nombre }}
+          </option>
+        </select>
+
+        <label for="cantidad-{{ i }}" class="form-label mt-2"
+          >Cantidad Necesaria</label
+        >
+        <input
+          type="number"
+          class="form-control"
+          id="cantidad-{{ i }}"
+          formControlName="cantidadNecesaria"
+          required
+        />
+
+        <label for="unidad-{{ i }}" class="form-label mt-2"
+          >Unidad de Medida</label
+        >
+        <select
+          class="form-control"
+          id="unidad-{{ i }}"
+          formControlName="unidadMedida"
+          required
+        >
+          <option *ngFor="let unidad of unidadesMedida" [value]="unidad">
+            {{ unidad }}
+          </option>
+        </select>
+
+        <button
+          type="button"
+          class="btn btn-danger mt-2"
+          (click)="removeDetalle(i)"
+        >
+          Eliminar Ingrediente
+        </button>
+      </div>
+    </div>
+
+    <button type="button" class="btn btn-success mb-3" (click)="addDetalle()">
+      Agregar Ingrediente
+    </button>
+
+    <button type="submit" class="btn btn-primary">
+      {{ isEditMode ? "Actualizar" : "Guardar" }}
+    </button>
+    <button
+      type="button"
+      style="color: black"
+      class="btn btn-secondary ms-2"
+      routerLink="/recetas"
+    >
+      Cancelar
+    </button>
+  </form>
+</div>

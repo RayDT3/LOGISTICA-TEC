@@ -1,0 +1,46 @@
+<app-progress-bar *ngIf="loading"></app-progress-bar>
+<div *ngIf="!loading" class="container">
+  <div class="title">
+    <h4>Ingredientes de "{{ autoTitulo }}"</h4>
+  </div>
+
+    <table *ngIf="listDetalleRecetas.length > 0" class="table table-hover">
+        <thead>
+          <tr>
+            <th scope="col">Receta</th>
+            <th scope="col">Ingredientes</th>
+            <th scope="col">Cantidad</th>
+            <th scope="col">Unidad de medida</th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of listDetalleRecetas " class="table-active">
+            <td>{{getRecetaByID(item.idReceta)?.receta?.toString() }}</td>
+            <td>{{ item.idIngrediente }}</td>
+            <td>{{ item.cantidadNecesaria }}</td>
+            <td>{{ item.unidadMedida }}</td>
+
+            <td>
+                <button routerLink="/receta/edit/{{ item.idReceta }}" type="button" class="btn btn-info btn-sm ms-2">Editar</button>
+                <button (click)="deleteDetalleReceta(item.idReceta!)" type="button" class="btn btn-secondary btn-sm ms-2">Eliminar</button>
+            </td>
+          </tr>
+        </tbody>
+
+      </table>
+
+      <div class="title">
+        <button type="button" class="btn btn-primary" routerLink="/receta/add" >+ Agregar ingrediente</button>
+
+      </div>
+
+      <div class="pagination mt-8 py-5 flex justify-center items-center">
+        <pagination-controls (pageChange)="pageActual = $event" previousLabel="Anterior" nextLabel="Siguiente"></pagination-controls>
+      </div>
+
+      <h5 *ngIf="listDetalleRecetas.length == 0" >No hay contenido para mostrar</h5>
+
+</div>
+
+

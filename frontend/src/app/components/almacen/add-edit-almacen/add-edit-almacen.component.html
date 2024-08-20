@@ -1,0 +1,70 @@
+<app-progress-bar *ngIf="loading"></app-progress-bar>
+<div *ngIf="!loading" class="row mt-1">
+    <div class="col-lg-4 offset-lg-4">
+        <div class="card text-white bg-secondary mb-3" style="background-color: #ffffff; max-width: 25rem;">
+            <div class="card-header text-center">{{ operacion }} Almacen</div>
+            <div class="card-body">
+                <form [formGroup]="form" (ngSubmit)="addIngrediente()">
+                    <div class="form-group input-container">
+                        <label for="nombre" class="label-custom">Nombre del Producto: </label>
+                        <input id="nombre" formControlName="nombre" type="text" class="form-control" placeholder="Ingrese el nombre del producto">
+                        <div class="input-underline"></div>
+                        <span *ngIf="form.get('nombre')?.hasError('required') && form.get('nombre')?.touched">
+                            El campo nombre es <strong>requerido</strong>
+                        </span>
+                    </div>
+
+                    <div class="form-group mt-2 input-container">
+                        <label for="cantidadDisponible" class="label-custom">Cantidad Actual: </label>
+                        <input id="cantidadDisponible" formControlName="cantidadDisponible" type="number" class="form-control" placeholder="Ingrese la cantidad actual">
+                        <div class="input-underline"></div>
+                        <span *ngIf="form.get('cantidadDisponible')?.hasError('required') && form.get('cantidadDisponible')?.touched">
+                            El campo stock actual es <strong>requerido</strong>
+                        </span>
+                    </div>
+<!--<div class="form-group mt-2 input-container">
+                        <label for="numero_factura" class="label-custom">Número de Factura: </label>
+                        <input id="numero_factura" formControlName="numero_factura" type="text" class="form-control" placeholder="Ingrese el número de la factura">
+                        <div class="input-underline"></div>
+                        <span *ngIf="form.get('numero_factura')?.hasError('required') && form.get('numero_factura')?.touched">
+                            El campo factura es <strong>requerido</strong>
+                        </span>
+                    </div>-->
+                    
+
+                    <div class="form-group mt-2 input-container">
+                        <label for="unidadMedida" class="label-custom">Unidad de Medida: </label>
+                        <select id="unidadMedida" formControlName="unidadMedida" class="form-control" (change)="checkNuevaUnidad($event)">
+                            <option value="" selected disabled>{{ "Seleccione Una Unidad De Medida" }}</option>
+                            <option *ngFor="let unidad of unidadesMedida" [value]="unidad">{{ unidad }}</option>
+                            <option value="nueva">Agregar nueva unidad de medida</option>
+                        </select>
+                        <div class="input-underline"></div>
+                        <input *ngIf="nuevaUnidad" formControlName="nueva_unidad_de_medida" type="text" class="form-control mt-2" placeholder="Ingrese la nueva unidad de medida">
+                        <span *ngIf="form.get('nueva_unidad_de_medida')?.hasError('required') && form.get('nueva_unidad_de_medida')?.touched">
+                            El campo de la unidad de medida es <strong>requerido</strong>
+                        </span>
+                    </div>
+
+                    <div class="form-group mt-2 input-container">
+                        <label for="fecha_de_vencimiento" class="label-custom">Fecha de Vencimiento: </label>
+                        <input id="fecha_de_vencimiento" formControlName="fecha_de_vencimiento" type="date" class="form-control" placeholder="Ingrese la fecha de vencimiento">
+                        <div class="input-underline"></div>
+                        <span *ngIf="form.get('fecha_de_vencimiento')?.hasError('required') && form.get('fecha_de_vencimiento')?.touched">
+                            El campo de la fecha de vencimiento es <strong>requerido</strong>
+                        </span>
+                    </div>
+
+                    <div class="row mt-2 text-center">
+                        <div class="col-lg-6">
+                            <button routerLink="/almacenes" type="button" class="btn btn-secondary" style="color: black"                            >Volver</button>
+                        </div>
+                        <div class="col-lg-6">
+                            <button [disabled]="form.invalid" type="submit" class="btn btn-primary">Aceptar</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

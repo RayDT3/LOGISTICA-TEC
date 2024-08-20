@@ -1,0 +1,50 @@
+<app-progress-bar *ngIf="loading"></app-progress-bar>
+<div *ngIf="!loading" class="container">
+    <div class="title">
+        <h4>Listado de Chefs</h4>
+
+        <form class="d-flex">
+          <input class="form-control me-sm-2" type="search" name="buscar" placeholder="Buscar nombre, apellido, DNI ..." [(ngModel)]="buscar" style="width: 500px;">
+        </form>
+
+    </div>
+
+    <table *ngIf="listChefs.length > 0" class="table table-hover">
+        <thead>
+          <tr>
+            <th scope="col">Nombre</th>
+            <th scope="col">Apellido</th>
+            <th scope="col">Telefono</th>
+            <th scope="col">Dni</th>
+            <th scope="col">Email</th>
+            <th scope="col">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of listChefs | busqueda:buscar | paginate: {itemsPerPage: 5, currentPage: pageActual} " class="table-active">
+            <td>{{ item.nombre }}</td>
+            <td>{{ item.apellido }}</td>
+            <td>{{ item.telefono }}</td>
+            <td>{{ item.dni }}</td>
+            <td>{{ item.email }}</td>
+            <td>
+                <button routerLink="/chef/edit/{{ item.id }}" type="button" class="btn btn-info btn-sm">Editar</button>
+                <button (click)="deleteChef(item.id!)" type="button" style="color: black;" class="btn btn-secondary btn-sm ms-2">Eliminar</button>
+            </td>
+          </tr>
+        </tbody>
+
+      </table>
+
+      <div class="title">
+        <button type="button" class="btn btn-primary" routerLink="/chef/add" >Agregar Nuevo Chef</button>
+        <button type="button" class="btn btn-danger" (click)="onImprimir()" >Imprimir</button>
+      </div>
+
+      <div class="pagination mt-8 py-5 flex justify-center items-center">
+        <pagination-controls (pageChange)="pageActual = $event" previousLabel="Anterior" nextLabel="Siguiente"></pagination-controls>
+      </div>
+
+      <h5 *ngIf="listChefs.length == 0" >No hay contenido para mostrar</h5>
+
+</div>
